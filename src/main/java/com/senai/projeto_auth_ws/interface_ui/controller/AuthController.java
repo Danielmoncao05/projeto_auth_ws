@@ -23,7 +23,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {  
         String username = payload.get("username");
         String password = payload.get("password");
         Usuario user = authService.authenticate(username, password);
@@ -31,8 +31,8 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> payload) {
+    @PostMapping("/register") // map - coleção de chave e valor 
+    public ResponseEntity<?> register(@RequestBody Map<String, String> payload) { // mapeia o json e devolve chamando de payload // pegar as informações e passar para o service
         String nome = payload.get("nome");
         String username = payload.get("username");
         String password = payload.get("password");
