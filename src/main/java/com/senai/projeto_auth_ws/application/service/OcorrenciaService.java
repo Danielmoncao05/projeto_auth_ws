@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class OcorrenciaService {
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private SimpMessagingTemplate messagingTemplate; // biblioteca importa que faz envio das msg http
     @Autowired
     private OcorrenciaRepository ocorrenciaRepository;
     @Autowired
@@ -65,13 +65,13 @@ public class OcorrenciaService {
 
         ocorrencia.setStatus(StatusDaOcorrencia.AGUARDANDO_CIENCIA_PROFESSOR);
 
-        Professor professor = professorRepository.findFirstByOrderByIdAsc()
+        Professor professor = professorRepository.findFirstByOrderByIdAsc() // pegar o primeiro professor (generico)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
         ocorrencia.setProfessorResponsavel(professor);
         Ocorrencia saved = ocorrenciaRepository.save(ocorrencia);
 
-        messagingTemplate.convertAndSend(
+        messagingTemplate.convertAndSend(  // mensagem  no topico do professor
                 "/topic/professor/" +
                         professor.getId(),
                 OcorrenciaDTO.toDTO(saved)
