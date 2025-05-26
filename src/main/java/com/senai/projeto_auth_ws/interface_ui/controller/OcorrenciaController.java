@@ -8,12 +8,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class OcorrenciaController {
+@RestController //htpp
+public class OcorrenciaController { // recebe as mensagens de fora
 
     @Autowired
     private OcorrenciaService ocorrenciaService;
-
+    // todos os metodos estao vindo do websocket
     @MessageMapping("/ocorrencia/saida")
     public void solicitarSaida(@Payload OcorrenciaDTO dto) {
         ocorrenciaService.solicitarSaidaAntecipada(dto);
