@@ -16,17 +16,17 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // biblioteca da propria jwt // criptografa a senha  // jwt - lida com as tranformações em json
 
     public Usuario authenticate(String username, String password) {
-        return usuarioRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+        return usuarioRepository.findByUsername(username) // passando e procurando no banco de dados alguem que tenha o username
+                .filter(user -> passwordEncoder.matches(password, user.getPassword())) // ver se passa a senha que foi passado e ver se bate com a senha do usuario no banco de dados
                 .orElseThrow(() -> new RuntimeException("Credenciais inválidas"));
     }
 
-    public Usuario register(String nome, String username, String password, TipoDeUsuario tipoDeUsuario ) {
-        Usuario user;
-        switch (tipoDeUsuario) {
+    public Usuario register(String nome, String username, String password, TipoDeUsuario tipoDeUsuario ) { 
+        Usuario user; // usuario abstrato
+        switch (tipoDeUsuario) { // de acordo com o tipo de usuario para ter a instancia certa
             case ALUNO -> user = new Aluno();
             case PROFESSOR -> user = new Professor();
             case AQV -> user = new AQV();
@@ -34,7 +34,7 @@ public class AuthService {
         }
         user.setNome(nome);
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(password)); //
         user.setTipoDeUsuario(tipoDeUsuario);
         return usuarioRepository.save(user);
     }
